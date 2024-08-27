@@ -15,45 +15,64 @@ $font-navbar-color: #b4b4b4;
 
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   background-color: $navbar-color;
+  justify-content: space-between;
 }
 
 .navbar-item {
   @extend .nav-style;
   list-style: none;
-  margin-right: 200px;
-
+  margin-left: -20px;
+  margin-right: 185px;
   li {
     margin-left: 30px;
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 400;
     position: relative;
     cursor: pointer;
+    display: inline-block;
 
-    &.active::after {
-      content: "";
+    .item-text {
+      margin-right: 8px;
+    }
+
+    &::after {
       position: absolute;
-      left: 0;
+      left: 50%;
       bottom: 0;
       height: 3px;
-      width: 100%;
+      width: 0;
+      transform: translateX(-50%);
       background-color: #007bff;
       transition: width 0.3s ease;
       margin-bottom: -15px;
+      content: "";
+    }
+
+    &.active::after {
+      width: 100%;
     }
 
     &:hover {
       color: #007bff;
     }
+
+    &.has-arrow::after {
+      width: calc(100%);
+      margin-left: -10px;
+    }
+  }
+
+  .down-outl {
+    width: 22px;
   }
 }
 
 .logo {
   @extend .nav-style;
   font-weight: bold;
-
   svg {
     margin-right: 10px;
   }
@@ -70,7 +89,7 @@ $font-navbar-color: #b4b4b4;
 
 .user-menu {
   @extend .nav-style;
-
+  margin-right: -40px;
   svg {
     margin-right: 30px;
   }

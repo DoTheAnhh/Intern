@@ -27,12 +27,13 @@ $margin-medium: 20px;
   .search-outl,
   .filter-outl,
   .button-outl {
-    margin-right: 10px;
+    margin-right: 20px;
   }
 
   .list-buy-option {
     width: 100%;
     margin-left: 10px;
+    align-items: center;
     .list-table {
       width: 100%;
     }
@@ -44,10 +45,17 @@ $margin-medium: 20px;
       font-size: 13px;
       margin-bottom: 10px;
     }
+    .item-text {
+      margin-right: 18px;
+    }
   }
 
   .table-list {
     width: 120%;
     margin-left: -10px;
+  }
+
+  .down-outl {
+    width: 13px;
   }
 }

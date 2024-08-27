@@ -91,10 +91,14 @@ const ListItem: React.FC = () => {
                 </div>
                 <div className='view-and-add'>
                     <div className='view-all'>
-                        <EyeOutlined /> View: View all <DownOutlined />
+                        <EyeOutlined /> View: View all <DownOutlined className='down-outl' />
                     </div>
                     <div className='action'>
-                        <SearchOutlined className='search-outl' /> <FilterOutlined className='filter-outl' /> <Button type='primary' className='button-outl'>Tạo mới PAM  +</Button>
+                        <SearchOutlined className='search-outl' />
+                        <FilterOutlined className='filter-outl' />
+                        <Button type='primary' className='button-outl'>
+                            <span className='item-text'>Tạo mới PAM</span>+
+                        </Button>
                     </div>
                 </div>
                 <div className='main-table'>

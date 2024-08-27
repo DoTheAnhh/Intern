@@ -19,37 +19,58 @@ const NavBar: React.FC = () => {
                         eProducement
                     </div>
                     <div className='separation'>|</div>
+
+                    <ul className='navbar-item'>
+                        <li
+                            className={selectedItem === 'Trang chủ' ? 'active' : ''}
+                            onClick={() => handleSelectItem('Trang chủ')}
+                        >
+                            Trang chủ
+                        </li>
+                        <li
+                            className={selectedItem === 'Kế hoạch' ? 'active has-arrow' : ''}
+                            onClick={() => handleSelectItem('Kế hoạch')}
+                        >
+                            <span className='item-text'>Kế hoạch</span> <DownOutlined className='down-outl' />
+                        </li>
+                        <li
+                            className={selectedItem === 'Đề nghị mua' ? 'active' : ''}
+                            onClick={() => handleSelectItem('Đề nghị mua')}
+                        >
+                            Đề nghị mua
+                        </li>
+                        <li
+                            className={selectedItem === 'Phương án mua' ? 'active has-arrow' : ''}
+                            onClick={() => handleSelectItem('Phương án mua')}
+                        >
+                            <span className='item-text'>Đề nghị mua</span> <DownOutlined className='down-outl' />
+                        </li>
+                        <li
+                            className={selectedItem === 'Đơn hàng' ? 'active has-arrow' : ''}
+                            onClick={() => handleSelectItem('Đơn hàng')}
+                        >
+                            <span className='item-text'>Đơn hàng</span> <DownOutlined className='down-outl' />
+                        </li>
+                        <li
+                            className={selectedItem === 'Thanh toán' ? 'active has-arrow' : ''}
+                            onClick={() => handleSelectItem('Thanh toán')}
+                        >
+                            <span className='item-text'>Thanh toán</span> <DownOutlined className='down-outl' />
+                        </li>
+                        <li
+                            className={selectedItem === 'Biểu mẫu' ? 'active' : ''}
+                            onClick={() => handleSelectItem('Biểu mẫu')}
+                        >
+                            Biểu mẫu
+                        </li>
+                        <li
+                            className={selectedItem === 'Báo cáo' ? 'active' : ''}
+                            onClick={() => handleSelectItem('Báo cáo')}
+                        >
+                            Báo cáo
+                        </li>
+                    </ul>
                 </div>
-                <ul className='navbar-item'>
-                    <li>Trang chủ</li>
-                    <li
-                        className={selectedItem === 'Trang chủ' ? 'active' : ''}
-                        onClick={() => handleSelectItem('Trang chủ')}
-                    >
-                        Kế hoạch <DownOutlined />
-                    </li>
-                    <li>Đề nghị mua</li>
-                    <li
-                        className={selectedItem === 'Phương án mua' ? 'active' : ''}
-                        onClick={() => handleSelectItem('Phương án mua')}
-                    >
-                        Phương án mua <DownOutlined />
-                    </li>
-                    <li
-                        className={selectedItem === 'Đơn hàng' ? 'active' : ''}
-                        onClick={() => handleSelectItem('Đơn hàng')}
-                    >
-                        Đơn hàng <DownOutlined />
-                    </li>
-                    <li
-                        className={selectedItem === 'Thanh toán' ? 'active' : ''}
-                        onClick={() => handleSelectItem('Thanh toán')}
-                    >
-                        Thanh toán <DownOutlined />
-                    </li>
-                    <li>Biểu mẫu</li>
-                    <li>Báo cáo</li>
-                </ul>
                 <div className='user-menu'>
                     <BellOutlined />
                     <SettingOutlined />
