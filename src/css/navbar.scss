@@ -1,0 +1,65 @@
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+$navbar-color: #121212;
+$font-navbar-color: #b4b4b4;
+
+.nav-style {
+  display: flex;
+  align-items: center;
+  color: $font-navbar-color;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: $navbar-color;
+}
+
+.navbar-item {
+  @extend .nav-style;
+  list-style: none;
+  margin-right: 200px;
+
+  li {
+    margin-left: 30px;
+    font-size: 14px;
+  }
+}
+
+.logo {
+  @extend .nav-style;
+  font-weight: bold;
+
+  svg {
+    margin-right: 10px;
+  }
+
+  div {
+    font-size: 18px;
+  }
+}
+
+.separation {
+  margin-left: 20px;
+  font-weight: 100;
+}
+
+.user-menu {
+  @extend .nav-style;
+
+  svg {
+    margin-right: 30px;
+  }
+}
+
+.img-user {
+  @include border-radius(50%);
+  width: 20px;
+  margin-right: 20px;
+}
