@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../css/navbar.scss'
-
-import { ArrowDownOutlined, BellOutlined, MoreOutlined, SettingOutlined, WalletOutlined } from '@ant-design/icons'
+import { BellOutlined, DownOutlined, MoreOutlined, SettingOutlined, WalletOutlined } from '@ant-design/icons'
 
 const NavBar: React.FC = () => {
+
+    const [selectedItem, setSelectedItem] = useState<string>('');
+
+    const handleSelectItem = (item: string) => {
+        setSelectedItem(item);
+    };
+
     return (
         <>
             <div className='navbar'>
@@ -16,11 +22,31 @@ const NavBar: React.FC = () => {
                 </div>
                 <ul className='navbar-item'>
                     <li>Trang chủ</li>
-                    <li>Kế hoạch <ArrowDownOutlined /></li>
+                    <li
+                        className={selectedItem === 'Trang chủ' ? 'active' : ''}
+                        onClick={() => handleSelectItem('Trang chủ')}
+                    >
+                        Kế hoạch <DownOutlined />
+                    </li>
                     <li>Đề nghị mua</li>
-                    <li>Phương án mua <ArrowDownOutlined /></li>
-                    <li>Đơn hàng <ArrowDownOutlined /></li>
-                    <li>Thanh toán <ArrowDownOutlined /></li>
+                    <li
+                        className={selectedItem === 'Phương án mua' ? 'active' : ''}
+                        onClick={() => handleSelectItem('Phương án mua')}
+                    >
+                        Phương án mua <DownOutlined />
+                    </li>
+                    <li
+                        className={selectedItem === 'Đơn hàng' ? 'active' : ''}
+                        onClick={() => handleSelectItem('Đơn hàng')}
+                    >
+                        Đơn hàng <DownOutlined />
+                    </li>
+                    <li
+                        className={selectedItem === 'Thanh toán' ? 'active' : ''}
+                        onClick={() => handleSelectItem('Thanh toán')}
+                    >
+                        Thanh toán <DownOutlined />
+                    </li>
                     <li>Biểu mẫu</li>
                     <li>Báo cáo</li>
                 </ul>

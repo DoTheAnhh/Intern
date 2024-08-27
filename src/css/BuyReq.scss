@@ -1,0 +1,34 @@
+$white: #ffffff;
+$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$title-font-weight: 500;
+$subtitle-font-size: 18px;
+$small-font-size: 13px;
+$margin-small: 10px;
+
+.buy-request {
+  background-color: $white;
+  margin: $margin-small;
+  padding: 20px;
+  box-shadow: $box-shadow;
+  width: 40%;
+
+  .title {
+    font-weight: $title-font-weight;
+    font-size: $subtitle-font-size;
+  }
+
+  .title-more {
+    margin: $margin-small 0;
+    font-size: $small-font-size;
+  }
+
+  .buy-request-title {
+    font-size: 20px;
+    font-weight: $title-font-weight;
+  }
+
+  .buy-request-title-more {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+}
