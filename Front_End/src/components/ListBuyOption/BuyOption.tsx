@@ -43,7 +43,8 @@ const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => 
 
     const [buyOption, setBuyOption] = useState<BuyOptionn>({
         createDate: getTodayDate(),
-        status: "MOI_TAO"
+        status: "MOI_TAO",
+        requestNumber: 0
     });
 
     const optionStatus = [
@@ -97,8 +98,8 @@ const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => 
             }
         }
 
-        if (buyOption?.requestNumber !== undefined && buyOption?.requestNumber < 0) {
-            errors.requestNumber = "Số lượng phản hồi không được bé hơn 1";
+        if (buyOption?.requestNumber === undefined || buyOption?.requestNumber < 0) {
+            errors.requestNumber = "Số lượng phản hồi phải lớn hơn hoặc bằng 0";
         }
 
         setBuyOption((prevBuyOption) => ({
@@ -201,9 +202,23 @@ const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => 
                             <div style={{ color: 'red', marginTop: '4px' }}>{buyOption?.errors?.endDate}</div>
                         </Form.Item>
                         <Form.Item label="Số lượng phản hồi" required>
-                            <Input value={buyOption?.requestNumber} onChange={(e) => handleChangeSingleField("requestNumber")(Number(e.target.value))} />
+                            <Input
+                                type="number"
+                                min={0}
+                                value={buyOption?.requestNumber !== undefined ? buyOption.requestNumber : ''}
+                                onChange={(e) => {
+                                    const value = Number(e.target.value);
+                                    if (!isNaN(value) && value >= 0) {
+                                        handleChangeSingleField("requestNumber")(value);
+                                    } else {
+                                        handleChangeSingleField("requestNumber")(0);
+                                    }
+                                }}
+                            />
                             <div style={{ color: 'red', marginTop: '4px' }}>{buyOption?.errors?.requestNumber}</div>
                         </Form.Item>
+
+
                         <Form.Item label="Trạng thái" required>
                             <Select
                                 placeholder="Trạng thái"
