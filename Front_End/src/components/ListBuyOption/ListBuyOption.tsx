@@ -24,7 +24,7 @@ const ListBuyOption: React.FC = () => {
     const [selectedBuyOption, setSelectedBuyOption] = useState<number>(0);
 
     const [currentPage, setCurrentPage] = useState<number>(0);
-    const [pageSize, setPageSize] = useState<number>(10);
+    const [pageSize, setPageSize] = useState<number>(3);
     const [totalBuyOption, setTotalBuyOption] = useState<number>(0);
 
     const [isModalOpenBuyOption, setIsModalOpenBuyOption] = useState(false);
@@ -44,7 +44,7 @@ const ListBuyOption: React.FC = () => {
         try {
             const res = await axios.get('http://localhost:8080/buy-option', {
                 params: {
-                    page: page,
+                    page: page -1 ,
                     size: size,
                 },
             });
