@@ -1,13 +1,10 @@
 import React from 'react'
-import '../css/content.scss'
 import BuyReq from './BuyReq';
 import BuyItem from './BuyItem';
-import ListItem from './ListItem';
+import '../css/content.scss'
+import ListBuyOption from './ListBuyOption/ListBuyOption';
 
 const Content: React.FC = () => {
-
-
-
     return (
         <div className='main'>
             <div className='content'>
@@ -19,7 +16,7 @@ const Content: React.FC = () => {
                     <BuyItem />
                     <BuyReq />
                 </div>
-                <ListItem />
+                <ListBuyOption />
             </div>
         </div>
     )

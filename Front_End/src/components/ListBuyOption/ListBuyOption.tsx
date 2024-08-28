@@ -1,0 +1,227 @@
+import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FilterOutlined, MoreOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Modal, Pagination, Table, TableColumnsType } from 'antd';
+import React, { useEffect, useState } from 'react'
+import './css/ListItem.scss'
+import axios from 'axios';
+import BuyOption from './BuyOption';
+
+interface BuyOptionn {
+    id: number;
+    pamCode: string;
+    pamName: string;
+    createUser: string;
+    createDate: string;
+    eventType: string;
+    startDate: string;
+    endDate: string;
+    reqNumber: string;
+    status: string;
+}
+
+const ListBuyOption: React.FC = () => {
+
+    const [buyOptions, setBuyOptions] = useState<BuyOptionn[]>([])
+    const [selectedBuyOption, setSelectedBuyOption] = useState<number>(0);
+
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const [pageSize, setPageSize] = useState<number>(10);
+    const [totalBuyOption, setTotalBuyOption] = useState<number>(0);
+
+    const [isModalOpenBuyOption, setIsModalOpenBuyOption] = useState(false);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        fetchBuyOption(page, pageSize);
+    };
+
+    const handlePageSizeChange = (size: number) => {
+        setPageSize(size);
+        setCurrentPage(0);
+        fetchBuyOption(0, size);
+    };
+
+    const fetchBuyOption = async (page: number, size: number): Promise<BuyOptionn[]> => {
+        try {
+            const res = await axios.get('http://localhost:8080/buy-option', {
+                params: {
+                    page: page,
+                    size: size,
+                },
+            });
+            setTotalBuyOption(res.data.totalElements);
+            return res.data.content
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            return [];
+        }
+    }
+
+    const deleteBuyOption = async (id: number) => {
+        await axios.delete(`http://localhost:8080/buy-option/${id}`)
+        fetchBuyOption(currentPage, pageSize).then((data) => {
+            setBuyOptions(data);
+        });
+    }
+
+    const columnList: TableColumnsType<BuyOptionn> = [
+        {
+            title: 'Mã PAM',
+            dataIndex: 'pamCode',
+            render: (text: string) => <a>{text}</a>,
+        },
+        {
+            title: 'Tên PAM',
+            dataIndex: 'pamName',
+        },
+        {
+            title: 'Người tạo',
+            dataIndex: 'createUser',
+        },
+        {
+            title: 'Ngày tạo',
+            dataIndex: 'createDate',
+        },
+        {
+            title: 'Loại sự kiện',
+            dataIndex: 'eventType',
+        },
+        {
+            title: 'Ngày bắt đầu báo giá',
+            dataIndex: 'startDate',
+        },
+        {
+            title: 'Ngày kết thúc báo giá',
+            dataIndex: 'endDate',
+        },
+        {
+            title: 'Số lượng phản hồi',
+            dataIndex: 'requestNumber',
+            render: (requestNumber) => `${requestNumber} phản hồi`,
+        },
+        {
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            render: (status) => {
+                switch (status) {
+                    case 'MOI_TAO':
+                        return (
+                            <span>
+                                Mới tạo
+                            </span>
+                        );
+                    case 'CHO_DUYET_SU_KIEN':
+                        return (
+                            <span>
+                                Chờ duyệt sự kiện
+                            </span>
+                        );
+                    case 'CHO_DIEN_RA':
+                        return (
+                            <span>
+                                Chờ diễn ra
+                            </span>
+                        );
+                    case 'DA_HUY':
+                        return (
+                            <span>
+                                Đã hủy
+                            </span>
+                        );
+                    default:
+                        return status;
+                }
+            },
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (record) => (
+                <span>
+                    <EditOutlined
+                        style={{ cursor: 'pointer', float: 'left' }}
+                        onClick={() => showModalBuyOptionn(record)}
+                    />
+                    <DeleteOutlined
+                        style={{ cursor: 'pointer', float: 'right' }}
+                        onClick={() => deleteBuyOption(record.id)}
+                    />
+                </span>
+
+            ),
+        },
+    ];
+
+    const showModalBuyOptionn = (record: BuyOptionn) => {
+        setSelectedBuyOption(record.id);
+        setIsModalOpenBuyOption(true);
+    };
+
+    const showModalBuyOption = () => {
+        setIsModalOpenBuyOption(true);
+    };
+
+    const handleCancelBuyOption = () => {
+        setIsModalOpenBuyOption(false);
+        fetchBuyOption(currentPage, pageSize).then((data) => {
+            setBuyOptions(data);
+        });
+    };
+
+    useEffect(() => {
+        fetchBuyOption(currentPage, pageSize).then((data) => {
+            setBuyOptions(data);
+        });
+    }, [currentPage, pageSize]);
+
+    return (
+        <div className='list-buy'>
+            <div className='list-buy-option'>
+                <div className='buy-request-title'>
+                    Danh sách phương án mua
+                </div>
+                <div className='buy-request-title-more'>
+                    Danh sách các phương án mua (PAM) được tạo ra trên hệ thống mà người dùng được quyền truy xuất
+                </div>
+                <div className='view-and-add'>
+                    <div className='view-all'>
+                        <EyeOutlined /> View: View all <DownOutlined className='down-outl' />
+                    </div>
+                    <div className='action'>
+                        <SearchOutlined className='search-outl' />
+                        <FilterOutlined className='filter-outl' />
+                        <Button type='primary' className='button-outl' onClick={showModalBuyOption}>
+                            <span className='item-text'>Tạo mới PAM</span>+
+                        </Button>
+                        <Modal
+                            title="BUY OPTION"
+                            open={isModalOpenBuyOption}
+                            onCancel={handleCancelBuyOption}
+                            footer={(false)}
+                        >
+                            <BuyOption onClose={handleCancelBuyOption} selectedBuyOption={selectedBuyOption} />
+                        </Modal>
+                    </div>
+                </div>
+                <div className='main-table'>
+                    <Table
+                        className='table-list'
+                        columns={columnList}
+                        dataSource={buyOptions}
+                        pagination={false}
+                    />
+                    <Pagination
+                        style={{ marginTop: 20, justifyContent: 'center' }}
+                        className="pagination-container"
+                        current={currentPage}
+                        pageSize={pageSize}
+                        total={totalBuyOption}
+                        onChange={handlePageChange}
+                        onShowSizeChange={handlePageSizeChange}
+                    />
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default ListBuyOption
