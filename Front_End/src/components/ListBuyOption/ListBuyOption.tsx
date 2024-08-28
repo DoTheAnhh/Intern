@@ -1,5 +1,5 @@
 import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FilterOutlined, MoreOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Modal, Pagination, Table, TableColumnsType } from 'antd';
+import { Button, Modal, Pagination, Popconfirm, Table, TableColumnsType } from 'antd';
 import React, { useEffect, useState } from 'react'
 import './css/ListItem.scss'
 import axios from 'axios';
@@ -141,10 +141,17 @@ const ListBuyOption: React.FC = () => {
                         style={{ cursor: 'pointer', float: 'left' }}
                         onClick={() => showModalBuyOptionn(record)}
                     />
-                    <DeleteOutlined
-                        style={{ cursor: 'pointer', float: 'right' }}
-                        onClick={() => deleteBuyOption(record.id)}
-                    />
+                    <Popconfirm
+                        title="Are you sure to submit this movie?"
+                        onConfirm={() => deleteBuyOption(record.id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <DeleteOutlined
+                            style={{ cursor: 'pointer', float: 'right' }}
+                        />
+                    </Popconfirm>
+
                 </span>
 
             ),
