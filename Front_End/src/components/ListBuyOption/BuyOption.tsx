@@ -1,27 +1,40 @@
 import { Button, Col, Form, Input, message, Popconfirm, Row, Select } from 'antd'
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 interface BuyOptionProps {
     selectedBuyOption: number
     onClose: () => void;
 }
 
+interface BuyOptionn {
+    pamCode?: string;
+    pamName?: string;
+    createUser?: string;
+    createDate?: string;
+    eventType?: string;
+    startDate?: string;
+    endDate?: string;
+    requestNumber?: number;
+    status?: string;
+    errors?: any;
+}
+
+
 const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => {
 
-    const today = new Date().toISOString().split('T')[0];
+    const getTodayDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
-    const [pamCode, setPamCode] = useState<string>('')
-    const [pamName, setPamName] = useState<string>('')
-    const [createUser, setCreateUser] = useState<string>('')
-    const [createDate, setCreateDate] = useState<string>(today)
-    const [eventType, setEventType] = useState<string>('')
-    const [startDate, setStartDate] = useState<string>('')
-    const [endDate, setEndDate] = useState<string>('')
-    const [requestNumber, setRequestNumber] = useState<number>(0)
-    const [status, setStatus] = useState<string>('MOI_TAO');
-
-    const buyOption = { pamCode, pamName, createUser, createDate, eventType, startDate, endDate, requestNumber, status }
+    const [buyOption, setBuyOption] = useState<BuyOptionn>({
+        createDate: getTodayDate(),
+        status: "MOI_TAO"
+    });
 
     const optionStatus = [
         { value: 'MOI_TAO', label: 'Mới tạo' },
@@ -33,67 +46,13 @@ const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => 
     const fetchBuyOptionById = async () => {
         try {
             const res = await axios.get(`http://localhost:8080/buy-option/${selectedBuyOption}`);
-            const buyOptionData = res.data
-            setPamCode(buyOptionData.pamCode)
-            setPamName(buyOptionData.pamName)
-            setCreateUser(buyOptionData.createUser)
-            setCreateDate(buyOptionData.createDate)
-            setEventType(buyOptionData.eventType)
-            setStartDate(buyOptionData.startDate)
-            setEndDate(buyOptionData.endDate)
-            setRequestNumber(buyOptionData.requestNumber)
-            setStatus(buyOptionData.status)
+            setBuyOption(res.data);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
     }
 
-    const validateForm = (): boolean => {
-        if (!pamCode.trim()) {
-            message.error("Mã PAM không được để trống")
-            return false;
-        }
-        if (!pamName.trim()) {
-            message.error("Tên PAM không được để trống")
-            return false;
-        }
-        if (!createUser.trim()) {
-            message.error("Người tạo không được để trống")
-            return false;
-        }
-        if (!eventType.trim()) {
-            message.error("Loại sự kiện không được để trống")
-            return false;
-        }
-        if (!startDate.trim()) {
-            message.error("Ngày bắt đầu không được để trống")
-            return false;
-        }
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        if (end < start) {
-            message.error("Ngày kết thúc không được nhỏ hơn ngày bắt đầu");
-            return false;
-        }
-        if (!endDate.trim()) {
-            message.error("Ngày kết thúc không được để trống")
-            return false;
-        }
-        if (requestNumber < 0) {
-            message.error("Số lượng phản hồi không nhỏ hơn 0")
-            return false;
-        }
-        if (!status.trim()) {
-            message.error("Trạng thái không được để trống")
-            return false;
-        }
-        return true;
-    }
-
     const handleSaveOrUpdateBuyOption = async () => {
-        if (!validateForm()) {
-            return;
-        }
         try {
             const data = {
                 ...buyOption
@@ -104,16 +63,41 @@ const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => 
                 await axios.post('http://localhost:8080/buy-option/save-buy-option', data)
             }
             onClose();
+            resetBuyOption();
         } catch (e) {
             console.error(e);
         }
     }
 
+    const resetBuyOption = () => {
+        setBuyOption({
+            createDate: getTodayDate(),
+            status: "MOI_TAO",
+        });
+    };
+
     useEffect(() => {
         if (selectedBuyOption) {
             fetchBuyOptionById()
         }
-    }, [selectedBuyOption])
+    }, [selectedBuyOption]);
+
+    const handleChangeSingleField = useCallback(
+        (field: string) => {
+            return (value: string | number) => {
+                setBuyOption((prevBuyOption) => ({
+                    ...prevBuyOption,
+                    [field]: value,
+                    errors: {
+                        ...prevBuyOption?.errors,
+                        [field]: null,
+                    },
+                }));
+            };
+        },
+        [buyOption]
+    );
+
 
     return (
         <>
@@ -121,45 +105,45 @@ const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => 
                 <Row gutter={16}>
                     <Col span={12}>
                         <Form.Item label="Mã PAM" required>
-                            <Input value={pamCode} onChange={(e) => setPamCode(e.target.value)} />
+                            <Input value={buyOption?.pamCode} onChange={(e) => handleChangeSingleField("pamCode")(e.target.value)} />
+                            <div>{buyOption?.errors?.pamCode}</div>
                         </Form.Item>
                         <Form.Item label="Tên PAM" required>
-                            <Input value={pamName} onChange={(e) => setPamName(e.target.value)} />
+                            <Input value={buyOption?.pamName} onChange={(e) => handleChangeSingleField("pamName")(e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Người tạo" required>
-                            <Input value={createUser} onChange={(e) => setCreateUser(e.target.value)} />
+                            <Input value={buyOption?.createUser} onChange={(e) => handleChangeSingleField("createUser")(e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Ngày tạo" required>
                             <Input
                                 type='date'
                                 disabled
-                                value={createDate}
-                                onChange={(e) => setCreateDate(e.target.value)}
+                                value={buyOption?.createDate}
+                                onChange={(e) => handleChangeSingleField("createDate")(e.target.value)}
                             />
                         </Form.Item>
                         <Form.Item label="Loại sự kiện" required>
-                            <Input value={eventType} onChange={(e) => setEventType(e.target.value)} />
+                            <Input value={buyOption?.eventType} onChange={(e) => handleChangeSingleField("eventType")(e.target.value)} />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item label="Ngày bắt đầu" required>
-                            <Input type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                            <Input type='date' value={buyOption?.startDate} onChange={(e) => handleChangeSingleField("startDate")(e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Ngày kết thúc" required>
-                            <Input type='date' value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                            <Input type='date' value={buyOption?.endDate} onChange={(e) => handleChangeSingleField("endDate")(e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Số lượng phản hồi" required>
-                            <Input value={requestNumber} onChange={(e) => setRequestNumber(Number(e.target.value))} />
+                            <Input value={buyOption?.requestNumber} onChange={(e) => handleChangeSingleField("requestNumber")(Number(e.target.value))} />
                         </Form.Item>
                         <Form.Item label="Trạng thái" required>
                             <Select
                                 placeholder="Trạng thái"
                                 options={optionStatus}
-                                value={status}
-                                onChange={(value) => setStatus(value)}
+                                value={buyOption?.status}
+                                onChange={(e) => handleChangeSingleField("status")(e)}
                             />
                         </Form.Item>
-
                     </Col>
                     <Form.Item>
                         <Popconfirm
