@@ -18,4 +18,6 @@ public interface BuyOptionService {
     BuyOption updateBuyOption(BuyOptionRequest buyOptionRequest, Long id);
 
     void deleteBuyOption(Long id);
+
+    Page<BuyOption> searchBuyOptions(String keyword, int page, int size);
 }

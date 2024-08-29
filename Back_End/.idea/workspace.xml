@@ -1,58 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fae4f5f-9031-4ba4-86fd-598ebddb314c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eslint.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../public/vite.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/App.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/BuyItem.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/BuyReq.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/Content.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/ListItem.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/NavBar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/css/BuyItem.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/css/BuyReq.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/css/ListItem.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/css/content.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/css/navbar.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/vite-env.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../tsconfig.app.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../tsconfig.node.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite.config.ts" beforeDir="false" />
+    <list default="true" id="e6ee3dea-073e-49a6-bc70-8466e4a80783" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/back_end/specification/BuyOptionSpecification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Back_End.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/java/com/example/back_end/BackEndApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/java/com/example/back_end/controller/BuyOptionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/java/com/example/back_end/dto/BuyOptionRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/java/com/example/back_end/entity/BuyOption.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/java/com/example/back_end/enums/BuyOptionStatusEnum.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/java/com/example/back_end/exception/ResourceNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/java/com/example/back_end/mapper/BuyOptionMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/java/com/example/back_end/repository/BuyOptionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/java/com/example/back_end/service/BuyOptionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/java/com/example/back_end/service/impl/IBuyOptionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Back_End/src/test/java/com/example/back_end/BackEndApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front_End/src/components/ListBuyOption/ListBuyOption.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Front_End/src/components/ListBuyOption/ListBuyOption.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Front_End/src/components/ListBuyOption/css/ListItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../Front_End/src/components/ListBuyOption/css/ListItem.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
-  <component name="ProjectId" id="2lEllpCWvG0fuY1zukmm5Q3Twak" />
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2lEm2PnmUb9TMzRJHrBkDuzA3qp" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.BackEndApplication.executor": "Run",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/admin/Documents/GitHub/Intern",
+    "last_opened_file_path": "C:/Users/admin/Documents/GitHub/Intern/Back_End",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql_aurora_aws"
+    ]
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="BackEndApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Back_End" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.back_end.BackEndApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -64,12 +115,14 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3fae4f5f-9031-4ba4-86fd-598ebddb314c" name="Changes" comment="" />
-      <created>1724753269264</created>
+      <changelist id="e6ee3dea-073e-49a6-bc70-8466e4a80783" name="Changes" comment="" />
+      <created>1724753401412</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1724753269264</updated>
-      <workItem from="1724753270274" duration="14000" />
+      <updated>1724753401412</updated>
+      <workItem from="1724753402427" duration="1552000" />
+      <workItem from="1724810220312" duration="8344000" />
+      <workItem from="1724898532158" duration="4695000" />
     </task>
     <servers />
   </component>

@@ -7,10 +7,13 @@ import com.example.back_end.exception.ResourceNotFoundException;
 import com.example.back_end.mapper.BuyOptionMapper;
 import com.example.back_end.repository.BuyOptionRepository;
 import com.example.back_end.service.BuyOptionService;
+import com.example.back_end.specification.BuyOptionSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -73,5 +76,12 @@ public class IBuyOptionService implements BuyOptionService {
         } else {
             throw new EntityNotFoundException("Buy option with id " + id + " not found");
         }
+    }
+
+    @Override
+    public Page<BuyOption> searchBuyOptions(String keyword, int page, int size) {
+        Specification<BuyOption> spec = BuyOptionSpecification.searchByPamCodeOrPamName(keyword);
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return buyOptionRepository.findAll(spec, pageRequest);
     }
 }
