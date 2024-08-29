@@ -1,4 +1,4 @@
-import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FilterOutlined, MoreOutlined, SearchOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Modal, Pagination, Popconfirm, Table, TableColumnsType } from 'antd';
 import React, { useEffect, useState } from 'react'
 import './css/ListItem.scss'
@@ -29,22 +29,17 @@ const ListBuyOption: React.FC = () => {
 
     const [isModalOpenBuyOption, setIsModalOpenBuyOption] = useState(false);
 
-    const handlePageChange = (page: number) => {
+    const handlePageChange = (page: number, pageSize: number) => {
         setCurrentPage(page);
-        fetchBuyOption(page, pageSize);
+        setPageSize(pageSize);
     };
 
-    const handlePageSizeChange = (size: number) => {
-        setPageSize(size);
-        setCurrentPage(0);
-        fetchBuyOption(0, size);
-    };
 
     const fetchBuyOption = async (page: number, size: number): Promise<BuyOptionn[]> => {
         try {
             const res = await axios.get('http://localhost:8080/buy-option', {
                 params: {
-                    page: page -1 ,
+                    page: page - 1,
                     size: size,
                 },
             });
@@ -217,13 +212,16 @@ const ListBuyOption: React.FC = () => {
                         pagination={false}
                     />
                     <Pagination
-                        style={{ marginTop: 20, justifyContent: 'center' }}
                         className="pagination-container"
+                        style={{ marginTop: 20, justifyContent: 'center' }}
+
                         current={currentPage}
                         pageSize={pageSize}
                         total={totalBuyOption}
                         onChange={handlePageChange}
-                        onShowSizeChange={handlePageSizeChange}
+                        pageSizeOptions={[10, 20, 50, 75, 100, totalBuyOption]}
+                        showTotal={(total) => `Total ${total} items`}
+                        showSizeChanger
                     />
                 </div>
             </div>

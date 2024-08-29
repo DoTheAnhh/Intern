@@ -30,9 +30,7 @@ interface BuyOptionn {
     };
 }
 
-
 const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => {
-
     const getTodayDate = () => {
         const today = new Date();
         const year = today.getFullYear();
