@@ -1,9 +1,10 @@
-import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FilterOutlined, LeftOutlined, RightOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Modal, Pagination, Popconfirm, Table, TableColumnsType } from 'antd';
+import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Input, Modal, Popconfirm, Table, TableColumnsType } from 'antd';
 import React, { useEffect, useState } from 'react'
 import './css/ListItem.scss'
 import axios from 'axios';
 import BuyOption from './BuyOption';
+import Pagination from '../Pagination/Pagination';
 
 interface BuyOptionn {
     id: number;
@@ -33,27 +34,13 @@ const ListBuyOption: React.FC = () => {
 
     const [showSearch, setShowSearch] = useState<boolean>(false);
 
-    const handlePageChange = (page: number, pageSize: number) => {
+    const handlePageChange = (page: number) => {
         setCurrentPage(page);
+    };
+
+    const handlePageSizeChange = (pageSize: number) => {
         setPageSize(pageSize);
-    };
-
-    const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newSize = Number(e.target.value);
-        setPageSize(newSize);
         setCurrentPage(1);
-    };
-
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            handlePageChange(currentPage - 1, pageSize);
-        }
-    };
-
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            handlePageChange(currentPage + 1, pageSize);
-        }
     };
 
     const searchBuyOption = async (page: number, size: number, keyword: string): Promise<void> => {
@@ -76,8 +63,7 @@ const ListBuyOption: React.FC = () => {
 
     const handleSearch = async (value: string) => {
         setSearchKeyword(value);
-        setCurrentPage(1);
-        await searchBuyOption(1, pageSize, value);
+        await searchBuyOption(currentPage, pageSize, value);
     };
 
 
@@ -216,18 +202,11 @@ const ListBuyOption: React.FC = () => {
         });
     };
 
-    const pageSizeOptions = [5, 10, 20, 50, 75, 100, totalBuyOption];
-
-    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-
-    const startRecord = (currentPage - 1) * pageSize + 1;
-    const endRecord = Math.min(currentPage * pageSize, totalBuyOption);
-
     useEffect(() => {
         fetchBuyOption(currentPage, pageSize).then((data) => {
             setBuyOptions(data);
         });
-    }, [currentPage, pageSize]);
+    }, [currentPage, pageSize]); 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -285,33 +264,14 @@ const ListBuyOption: React.FC = () => {
                         dataSource={buyOptions}
                         pagination={false}
                     />
-                    <div className='pagination'>
-                        <div>
-                            <span>Số bản ghi mỗi trang: </span>
-                            <select id="pageSize" className='select-pagesize' value={pageSize} onChange={handlePageSizeChange}>
-                                {pageSizeOptions.map(size => (
-                                    <option key={size} value={size}>{size}</option>
-                                ))}
-                            </select>
-                            <span className='spe'>|</span>
-                            <span className='total-size'>{startRecord}-{endRecord} của {totalBuyOption} bản ghi</span>
-                        </div>
-                        <div className='page-number'>
-                            <select className='select-pagesize' onChange={(e) => handlePageChange(Number(e.target.value), pageSize)} value={currentPage}>
-                                {pageNumbers.map(page => (
-                                    <option key={page} value={page}>Trang {page}</option>
-                                ))}
-                            </select>
-                            <span className='span-page-number'>của {totalPages} trang</span>
-                            <div className={`left ${currentPage === 1 ? 'disabled' : ''}`}>
-                                <LeftOutlined onClick={handlePreviousPage} />
-                            </div>
-                            <div className='right'>
-                                <RightOutlined onClick={handleNextPage} />
-                            </div>
-
-                        </div>
-                    </div>
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        pageSize={pageSize}
+                        totalBuyOption={totalBuyOption}
+                        onPageChange={handlePageChange}
+                        onPageSizeChange={handlePageSizeChange}
+                    />
                 </div>
             </div>
         </div>
