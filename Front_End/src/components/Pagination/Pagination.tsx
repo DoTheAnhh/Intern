@@ -1,5 +1,5 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 interface PaginationProps {
     currentPage: number;
@@ -18,27 +18,27 @@ const Pagination: React.FC<PaginationProps> = ({
     onPageChange,
     onPageSizeChange,
 }) => {
-    const handlePageChange = (page: number) => {
+    const handlePageChange = useCallback((page: number) => {
         onPageChange(page, pageSize);
-    };
+    }, [onPageChange, pageSize]);
 
-    const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handlePageSizeChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
         const newSize = Number(e.target.value);
         onPageSizeChange(newSize);
         handlePageChange(1);
-    };
+    }, [onPageSizeChange, handlePageChange]);
 
-    const handlePreviousPage = () => {
+    const handlePreviousPage = useCallback(() => {
         if (currentPage > 1) {
             handlePageChange(currentPage - 1);
         }
-    };
+    }, [currentPage, handlePageChange]);
 
-    const handleNextPage = () => {
+    const handleNextPage = useCallback(() => {
         if (currentPage < totalPages) {
             handlePageChange(currentPage + 1);
         }
-    };
+    }, [currentPage, totalPages, handlePageChange]);
 
     const pageSizeOptions = [5, 10, 20, 50, 75, 100];
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);

@@ -1,7 +1,7 @@
 import { DeleteOutlined, DownOutlined, EditOutlined, EyeOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Modal, Popconfirm, Table, TableColumnsType } from 'antd';
-import React, { useEffect, useState } from 'react'
-import './css/ListItem.scss'
+import React, { useCallback, useEffect, useState } from 'react';
+import './css/ListItem.scss';
 import axios from 'axios';
 import BuyOption from './BuyOption';
 import Pagination from '../Pagination/Pagination';
@@ -20,8 +20,7 @@ interface BuyOptionn {
 }
 
 const ListBuyOption: React.FC = () => {
-
-    const [buyOptions, setBuyOptions] = useState<BuyOptionn[]>([])
+    const [buyOptions, setBuyOptions] = useState<BuyOptionn[]>([]);
     const [selectedBuyOption, setSelectedBuyOption] = useState<number>(0);
 
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -29,21 +28,21 @@ const ListBuyOption: React.FC = () => {
     const [totalBuyOption, setTotalBuyOption] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(1);
 
-    const [searchKeyword, setSearchKeyword] = useState<string>('')
+    const [searchKeyword, setSearchKeyword] = useState<string>('');
     const [isModalOpenBuyOption, setIsModalOpenBuyOption] = useState(false);
 
     const [showSearch, setShowSearch] = useState<boolean>(false);
 
-    const handlePageChange = (page: number) => {
+    const handlePageChange = useCallback((page: number) => {
         setCurrentPage(page);
-    };
+    }, []);
 
-    const handlePageSizeChange = (pageSize: number) => {
+    const handlePageSizeChange = useCallback((pageSize: number) => {
         setPageSize(pageSize);
         setCurrentPage(1);
-    };
+    }, []);
 
-    const searchBuyOption = async (page: number, size: number, keyword: string): Promise<void> => {
+    const searchBuyOption = useCallback(async (page: number, size: number, keyword: string): Promise<void> => {
         try {
             const res = await axios.get('http://localhost:8080/buy-option/search-buy-options', {
                 params: {
@@ -58,16 +57,14 @@ const ListBuyOption: React.FC = () => {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
-    };
+    }, []);
 
-
-    const handleSearch = async (value: string) => {
+    const handleSearch = useCallback(async (value: string) => {
         setSearchKeyword(value);
         await searchBuyOption(currentPage, pageSize, value);
-    };
+    }, [currentPage, pageSize, searchBuyOption]);
 
-
-    const fetchBuyOption = async (page: number, size: number): Promise<BuyOptionn[]> => {
+    const fetchBuyOption = useCallback(async (page: number, size: number): Promise<BuyOptionn[]> => {
         try {
             const res = await axios.get('http://localhost:8080/buy-option', {
                 params: {
@@ -77,19 +74,19 @@ const ListBuyOption: React.FC = () => {
             });
             setTotalBuyOption(res.data.totalElements);
             setTotalPages(Math.ceil(res.data.totalElements / size));
-            return res.data.content
+            return res.data.content;
         } catch (error) {
             console.error("Error fetching data:", error);
             return [];
         }
-    }
+    }, []);
 
-    const deleteBuyOption = async (id: number) => {
-        await axios.delete(`http://localhost:8080/buy-option/${id}`)
+    const deleteBuyOption = useCallback(async (id: number) => {
+        await axios.delete(`http://localhost:8080/buy-option/${id}`);
         fetchBuyOption(currentPage, pageSize).then((data) => {
             setBuyOptions(data);
         });
-    }
+    }, [currentPage, pageSize, fetchBuyOption]);
 
     const columnList: TableColumnsType<BuyOptionn> = [
         {
@@ -179,34 +176,32 @@ const ListBuyOption: React.FC = () => {
                             style={{ cursor: 'pointer', float: 'right' }}
                         />
                     </Popconfirm>
-
                 </span>
-
             ),
         },
     ];
 
-    const showModalBuyOptionn = (record: BuyOptionn) => {
+    const showModalBuyOptionn = useCallback((record: BuyOptionn) => {
         setSelectedBuyOption(record.id);
         setIsModalOpenBuyOption(true);
-    };
+    }, []);
 
-    const showModalBuyOption = () => {
+    const showModalBuyOption = useCallback(() => {
         setIsModalOpenBuyOption(true);
-    };
+    }, []);
 
-    const handleCancelBuyOption = () => {
+    const handleCancelBuyOption = useCallback(() => {
         setIsModalOpenBuyOption(false);
         fetchBuyOption(currentPage, pageSize).then((data) => {
             setBuyOptions(data);
         });
-    };
+    }, [currentPage, pageSize, fetchBuyOption]);
 
     useEffect(() => {
         fetchBuyOption(currentPage, pageSize).then((data) => {
             setBuyOptions(data);
         });
-    }, [currentPage, pageSize]); 
+    }, [currentPage, pageSize, fetchBuyOption]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -214,8 +209,7 @@ const ListBuyOption: React.FC = () => {
         };
 
         fetchData();
-    }, [currentPage, pageSize, searchKeyword]);
-
+    }, [currentPage, pageSize, searchKeyword, searchBuyOption]);
 
     return (
         <div className='list-buy'>
@@ -251,7 +245,7 @@ const ListBuyOption: React.FC = () => {
                             title="BUY OPTION"
                             open={isModalOpenBuyOption}
                             onCancel={handleCancelBuyOption}
-                            footer={(false)}
+                            footer={false}
                         >
                             <BuyOption onClose={handleCancelBuyOption} selectedBuyOption={selectedBuyOption} />
                         </Modal>
@@ -275,7 +269,7 @@ const ListBuyOption: React.FC = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ListBuyOption
+export default ListBuyOption;

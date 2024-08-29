@@ -1,9 +1,9 @@
-import { Button, Col, Form, Input, Popconfirm, Row, Select } from 'antd'
+import { Button, Col, Form, Input, Popconfirm, Row, Select } from 'antd';
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react';
 
 interface BuyOptionProps {
-    selectedBuyOption: number
+    selectedBuyOption: number;
     onClose: () => void;
 }
 
@@ -52,16 +52,16 @@ const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => 
         { value: 'DA_HUY', label: 'Đã hủy' }
     ];
 
-    const fetchBuyOptionById = async () => {
+    const fetchBuyOptionById = useCallback(async () => {
         try {
             const res = await axios.get(`http://localhost:8080/buy-option/${selectedBuyOption}`);
             setBuyOption(res.data);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
-    }
+    }, [selectedBuyOption]);
 
-    const validateForm = (): boolean => {
+    const validateForm = useCallback((): boolean => {
         const errors: any = {};
 
         if (!buyOption?.pamCode?.trim()) {
@@ -86,8 +86,7 @@ const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => 
 
         if (!buyOption?.startDate?.trim()) {
             errors.startDate = "Không được để trống ngày bắt đầu";
-        }
-        else if (buyOption?.endDate) {
+        } else if (buyOption?.endDate) {
             const start = new Date(buyOption?.startDate);
             const end = new Date(buyOption?.endDate);
 
@@ -106,36 +105,33 @@ const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => 
         }));
 
         return Object.keys(errors).length === 0;
-    };
+    }, [buyOption]);
 
-
-    const handleSaveOrUpdateBuyOption = async () => {
+    const handleSaveOrUpdateBuyOption = useCallback(async () => {
         if (!validateForm()) {
             return;
         }
         try {
-            const data = {
-                ...buyOption
-            }
+            const data = { ...buyOption };
             if (selectedBuyOption) {
-                await axios.put(`http://localhost:8080/buy-option/edit-buy-option/${selectedBuyOption}`, data)
+                await axios.put(`http://localhost:8080/buy-option/edit-buy-option/${selectedBuyOption}`, data);
             } else {
-                await axios.post('http://localhost:8080/buy-option/save-buy-option', data)
+                await axios.post('http://localhost:8080/buy-option/save-buy-option', data);
             }
             onClose();
             resetBuyOption();
         } catch (e) {
             console.error(e);
         }
-    }
+    }, [buyOption, selectedBuyOption, onClose, validateForm]);
 
-    const resetBuyOption = () => {
+    const resetBuyOption = useCallback(() => {
         setBuyOption({
             requestNumber: 0,
             createDate: getTodayDate(),
             status: "MOI_TAO",
         });
-    };
+    }, []);
 
     const handleChangeSingleField = useCallback(
         (field: string) => {
@@ -150,14 +146,14 @@ const BuyOption: React.FC<BuyOptionProps> = ({ onClose, selectedBuyOption }) => 
                 }));
             };
         },
-        [buyOption]
+        []
     );
 
     useEffect(() => {
         if (selectedBuyOption) {
-            fetchBuyOptionById()
+            fetchBuyOptionById();
         }
-    }, [selectedBuyOption]);
+    }, [selectedBuyOption, fetchBuyOptionById]);
 
     return (
         <>
